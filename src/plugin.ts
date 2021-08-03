@@ -1,5 +1,6 @@
 import { Manager, Node, Plugin, Structure } from 'erela.js';
 export class nodeDisconnectHandler extends Plugin {
+    //@ts-expect-error 
     public manager: Manager
 
     public load(manager: Manager) {
@@ -14,16 +15,17 @@ export class nodeDisconnectHandler extends Plugin {
         Structure.extend('Player', (Player) => class extends Player {
             async moveNode(node?: string) {
                 this.destroy();
-                let newNode: Node;
+                
+                let newNode: Node | undefined;
                 if (this.node.options.identifier === node) return this;
                 if (!node) newNode = this.manager.leastLoadNodes.first();
-                newNode = this.manager.nodes.get(node);
-                if (!newNode.connected) throw Error('The node is not connected');
+                newNode = this.manager.nodes.get(node as string);
+                if (!newNode?.connected) throw Error('The node is not connected');
                 this.node = newNode;
                 const playOptions = {
                     op: "play",
                     guildId: this.guild,
-                    track: this.queue.current.track,
+                    track: this.queue.current?.track,
                     startTime: this.position,
                 };
                 await this.node.send(this.voiceState)

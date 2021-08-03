@@ -7,6 +7,9 @@
   "dependencies": {
     "erela.js": "latest"
   },
+  "scripts": {
+    "build": "rimraf dist && tsc"
+  },
   "name": "erela.js-node_dc_handler",
   "version": "0.1.0",
   "license": "MIT"
