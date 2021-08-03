@@ -1,0 +1,13 @@
+{
+  "devDependencies": {
+    "@types/node": "^16.4.10",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.3.5"
+  },
+  "dependencies": {
+    "erela.js": "latest"
+  },
+  "name": "erela.js-node_dc_handler",
+  "version": "0.1.0",
+  "license": "MIT"
+}
