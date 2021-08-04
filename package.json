@@ -11,7 +11,7 @@
   "scripts": {
     "build": "rimraf dist && tsc"
   },
-  "name": "erela.js-autoMove",
+  "name": "erela.js-automove",
   "version": "0.1.0",
   "license": "MIT"
 }
