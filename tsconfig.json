@@ -10,6 +10,8 @@
         "allowSyntheticDefaultImports": true,
         "esModuleInterop": true,
         "resolveJsonModule": true,
+        "declaration": true,
+        "sourceMap": true,
         "typeRoots": [
             "node_modules/@types",
             "src/typings"
