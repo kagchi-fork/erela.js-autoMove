@@ -1,12 +1,12 @@
-import { Manager, Node, Plugin, Structure } from 'erela.js';
+import { Manager, Plugin, Structure } from 'erela.js';
 export class nodeDisconnectHandler extends Plugin {
     //@ts-expect-error 
     public manager: Manager
 
     public load(manager: Manager) {
         this.manager = manager
-        if (this.manager.nodes.filter(x => x.connected).size < 1) throw new Error('Lavalink node must more than 1 to use this plugin.');
         this.manager.on('nodeDisconnect', (node, reason) => {
+            if (this.manager.nodes.filter(x => x.connected).size < 1) return;
             for (const player of [...this.manager.players.filter(x => x.node === node).values()]) {
                 player.moveNode(this.manager.leastLoadNodes.first()?.options.identifier as string)
             }
