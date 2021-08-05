@@ -3,6 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.nodeDisconnectHandler = void 0;
 const erela_js_1 = require("erela.js");
 class nodeDisconnectHandler extends erela_js_1.Plugin {
+        constructor(options = {}) {
+        super();
+       }
     load(manager) {
         this.manager = manager;
         this.manager.on('nodeDisconnect', (node, reason) => {
