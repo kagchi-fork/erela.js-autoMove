@@ -1,8 +1,26 @@
 import { Manager, Plugin, Structure } from 'erela.js';
+
+class Player extends Structure.get('Player') {
+    public async moveNode(node: string) {
+        if (this.node.options.identifier === node) return this;
+        if (!node) throw Error('You must spesify node identifier.');
+        const newNode = this.manager.nodes.get(node as string);
+        if (!newNode?.connected) throw Error('The node you spesify is not connected.');
+        const playOptions = {
+            op: "play",
+            guildId: this.guild,
+            track: this.queue.current?.track,
+            startTime: this.position,
+        };
+        await newNode.send(this.voiceState)
+        await newNode.send(playOptions);
+        this.node = newNode;
+        return this;
+    }
+}
 export class nodeDisconnectHandler extends Plugin {
     //@ts-expect-error 
     public manager: Manager
-
     public load(manager: Manager) {
         this.manager = manager
         this.manager.on('nodeDisconnect', (node, reason) => {
@@ -11,25 +29,7 @@ export class nodeDisconnectHandler extends Plugin {
                 player.moveNode(this.manager.leastLoadNodes.first()?.options.identifier as string)
             }
         })
-
-        Structure.extend('Player', (Player) => class extends Player {
-            async moveNode(node: string) {
-                if (this.node.options.identifier === node) return this;
-                if (!node) throw Error('You must spesify node identifier.');
-                const newNode = this.manager.nodes.get(node as string);
-                if (!newNode?.connected) throw Error('The node you spesify is not connected.');
-                const playOptions = {
-                    op: "play",
-                    guildId: this.guild,
-                    track: this.queue.current?.track,
-                    startTime: this.position,
-                };
-                await newNode.send(this.voiceState)
-                await newNode.send(playOptions);
-                this.node = newNode;
-                return this;
-            }
-        })
+        Structure.extend("Player", () => Player);
     }
 }
  
